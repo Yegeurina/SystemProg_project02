@@ -49,7 +49,7 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 			printf("num_user : 현재 채팅에 참가한 참가자 수\n");
 			printf("num_chat : 현재 채팅에서 오간 대화 수\n");
 			printf("notice : 공지사항(notice [공지내용])\n");
-			printf("exit : 서버에서 모든 채팅 종료\n");
+			printf("exit : 진행 중인 채팅이 없을때 종료\n");
 		}
 		else if (!strcmp(bufmsg, "num_user\n"))//명령어 처리
 			printf("현재 참가자 수 = %d\n", num_user);
@@ -76,16 +76,15 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		}
 		else if(!strcmp(bufmsg, "exit\n"))
 		{
-			for (i = 0; i < num_user; i++) {
-					send(clisock_list[i], bufmsg, strlen(bufmsg), 0);
-					removeClient(i);	// 클라이언트의 종료
-					continue;
+			if(num_user!=0)
+				puts("진행 중인 채팅이 있습니다.");
+			else
+			{
+				puts("Good bye!");
+				close(listen_sock);
+				exit(0);
 			}
-
-
-			puts("Good bye!");
-			close(listen_sock);
-			exit(0);
+			
 		}
 		else //예외 처리
 			printf("해당 명령어가 없습니다.help를 참조하세요.\n");
