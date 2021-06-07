@@ -90,8 +90,7 @@ int tcp_connect(int af, char *servip, unsigned short port) {
 	servaddr.sin_port = htons(port);
 
 	// 연결요청
-	if (connect(s, (struct sockaddr *)&servaddr, sizeof(servaddr))
-		< 0)
+	if (connect(s, (struct sockaddr *)&servaddr, sizeof(servaddr))< 0)
 		return -1;
 	return s;
 }

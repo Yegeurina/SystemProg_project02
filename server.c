@@ -77,9 +77,13 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		else if(!strcmp(bufmsg, "exit\n"))
 		{
 			for (i = 0; i < num_user; i++) {
+					close(clisock_list[i]);
 					removeClient(i);	// 클라이언트의 종료
 					continue;
 			}
+			puts("Good bye!");
+			close(listen_sock);
+			exit(0);
 		}
 		else //예외 처리
 			printf("해당 명령어가 없습니다.help를 참조하세요.\n");
