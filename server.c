@@ -64,9 +64,9 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 					// 모든 채팅 참가자에게 메시지 방송
 					for (j = 0; j < num_user; j++)
 						send(clisock_list[j], bufmsg, strlen(bufmsg), 0);
-					printf("\033[0G");		//커서의 X좌표를 0으로 이동
-					fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
-					printf("%s", bufmsg);			//메시지 출력
+					//printf("\033[0G");		//커서의 X좌표를 0으로 이동
+					//fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
+					//printf("%s", bufmsg);			//메시지 출력
 					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
 					fprintf(stderr, "server>"); //커서 출력
 				//}
