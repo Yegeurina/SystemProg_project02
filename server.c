@@ -72,7 +72,7 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 					printf("\033[0G");		//커서의 X좌표를 0으로 이동
 					fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
 					printf("%s", bufmsg);			//메시지 출력
-					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
+					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경e
 				}
 			}
 
