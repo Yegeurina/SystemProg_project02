@@ -36,7 +36,6 @@ struct tm tm;
 
 void *thread_function(void *arg) { //명령어를 처리할 스레드
 	int i,j;
-	fd_set read_fds;	//읽기를 감지할 fd_set 구조체
 	printf("명령어 목록 : help, num_user, num_chat, notice,exit\n");
 	while (1) {
 		char bufmsg[MAXLINE + 1];
@@ -59,7 +58,6 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		{
 			
 			for (i = 0; i < num_user; i++) {
-				if (FD_ISSET(clisock_list[i], &read_fds)) {
 					num_chat++;				//총 대화 수 증가
 					// 모든 채팅 참가자에게 메시지 방송
 					for (j = 0; j < num_user; j++)
@@ -69,7 +67,6 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 					printf("%s", bufmsg);			//메시지 출력
 					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
 					fprintf(stderr, "server>"); //커서 출력
-				}
 			}
 
 
