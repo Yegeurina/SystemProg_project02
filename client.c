@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 	if (s == -1)
 		errquit("tcp_connect fail");
 
-	puts("서버에 접속되었습니다.");
+	puts("서버에 접속되었습니다.\n종료를 원할시 'exit'를 입력하세요");
 	maxfdp1 = s + 1;
 	FD_ZERO(&read_fds);
 
