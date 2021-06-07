@@ -35,7 +35,7 @@ time_t ct;
 struct tm tm;
 
 void *thread_function(void *arg) { //명령어를 처리할 스레드
-	int i;
+	int i,j;
 	printf("명령어 목록 : help, num_user, num_chat, ip_list,notic,exit\n");
 	while (1) {
 		char bufmsg[MAXLINE + 1];
@@ -62,15 +62,17 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		{
 			
 			for (i = 0; i < num_user; i++) {
-				
+				if (FD_ISSET(clisock_list[i], &read_fds)) {
+					num_chat++;				//총 대화 수 증가
 					// 모든 채팅 참가자에게 메시지 방송
 					for (j = 0; j < num_user; j++)
-						send(bufmsg, buf, strlen(bufmsg), 0);
+						send(clisock_list[i], bufmsg, strlen(bufmsg), 0);
 					printf("\033[0G");		//커서의 X좌표를 0으로 이동
 					fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
 					printf("%s", buf);			//메시지 출력
 					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
 					fprintf(stderr, "server>"); //커서 출력
+				}
 			}
 
 
@@ -78,10 +80,8 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		else if(!strcmp(bufmsg, "exit\n"))
 		{
 			for (i = 0; i < num_user; i++) {
-				
-						removeClient(i);	// 클라이언트의 종료
-						continue;
-				
+					removeClient(i);	// 클라이언트의 종료
+					continue;
 			}
 		}
 		else //예외 처리
