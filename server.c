@@ -77,7 +77,7 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		else if(!strcmp(bufmsg, "exit\n"))
 		{
 			for (i = 0; i < num_user; i++) {
-					send(clisock_list[i], "Good Bye - Server", strlen("Good Bye - Server"), 0);
+					send(clisock_list[i], bufmsg, strlen(bufmsg), 0);
 					removeClient(i);	// 클라이언트의 종료
 					continue;
 			}
