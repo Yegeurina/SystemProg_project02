@@ -59,7 +59,7 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		{
 			
 			for (i = 0; i < num_user; i++) {
-				if (FD_ISSET(clisock_list[i], &read_fds)) {
+				//if (FD_ISSET(clisock_list[i], &read_fds)) {
 					num_chat++;				//총 대화 수 증가
 					// 모든 채팅 참가자에게 메시지 방송
 					for (j = 0; j < num_user; j++)
@@ -69,15 +69,17 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 					printf("%s", bufmsg);			//메시지 출력
 					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
 					fprintf(stderr, "server>"); //커서 출력
-				}
+				//}
 			}
 
 
 		}
 		else if(!strcmp(bufmsg, "exit\n"))
 		{
-			if(num_user!=0)
+			if(num_user!=0){
+				fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
 				puts("진행 중인 채팅이 있습니다.");
+			}
 			else
 			{
 				puts("Good bye!");
