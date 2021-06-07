@@ -59,17 +59,22 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		{
 			
 			for (i = 0; i < num_user; i++) {
-				//if (FD_ISSET(clisock_list[i], &read_fds)) {
+				if (FD_ISSET(clisock_list[i], &read_fds)) {
 					num_chat++;				//총 대화 수 증가
+					
 					// 모든 채팅 참가자에게 메시지 방송
 					for (j = 0; j < num_user; j++)
 						send(clisock_list[j], bufmsg, strlen(bufmsg), 0);
-					//printf("\033[0G");		//커서의 X좌표를 0으로 이동
-					//fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
-					//printf("%s", bufmsg);			//메시지 출력
+					ct = time(NULL);
+					tm = *localtime(&ct);
+					write(1, "\033[0G", 4);
+					printf("[%02d:%02d:%02d]", tm.tm_hour, tm.tm_min, tm.tm_sec);
+					printf("\033[0G");		//커서의 X좌표를 0으로 이동
+					fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
+					printf("%s", bufmsg);			//메시지 출력
 					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
 					fprintf(stderr, "server>"); //커서 출력
-				//}
+				}
 			}
 
 
