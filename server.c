@@ -48,7 +48,6 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		{
 			printf("num_user : 현재 채팅에 참가한 참가자 수\n");
 			printf("num_chat : 현재 채팅에서 오간 대화 수\n");
-			printf("ip_list : 현재 채팅에 참가한 참가자들의 IP\n");
 			printf("notice : 공지사항(notice [공지내용])\n");
 			printf("exit : 서버에서 모든 채팅 종료\n");
 		}
@@ -56,9 +55,6 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 			printf("현재 참가자 수 = %d\n", num_user);
 		else if (!strcmp(bufmsg, "num_chat\n"))//명령어 처리
 			printf("지금까지 오간 대화의 수 = %d\n", num_chat);
-		else if (!strcmp(bufmsg, "ip_list\n")) //명령어 처리
-			for (i = 0; i < num_user; i++)
-				printf("%s\n", ip_list[i]);
 		else if(!strncmp(bufmsg, "notice",6))
 		{
 			
