@@ -36,7 +36,7 @@ struct tm tm;
 
 void *thread_function(void *arg) { //명령어를 처리할 스레드
 	int i;
-	printf("명령어 목록 : help, num_user, num_chat, ip_list\n");
+	printf("명령어 목록 : help, num_user, num_chat, ip_list,notic,exit\n");
 	while (1) {
 		char bufmsg[MAXLINE + 1];
 		fprintf(stderr, "\033[1;32m"); //글자색을 녹색으로 변경
@@ -44,7 +44,13 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		fgets(bufmsg, MAXLINE, stdin); //명령어 입력
 		if (!strcmp(bufmsg, "\n")) continue;   //엔터 무시
 		else if (!strcmp(bufmsg, "help\n"))    //명령어 처리
-			printf("help, num_user, num_chat, ip_list\n");
+		{
+			printf("num_user : 현재 채팅에 참가한 참가자 수\n");
+			printf("num_chat : 현재 채팅에서 오간 대화 수\n");
+			printf("ip_list : 현재 채팅에 참가한 참가자들의 IP\n");
+			printf("notice : 공지사항(notice [공지내용])\n");
+			printf("exit : 서버에서 모든 채팅 종료\n");
+		}
 		else if (!strcmp(bufmsg, "num_user\n"))//명령어 처리
 			printf("현재 참가자 수 = %d\n", num_user);
 		else if (!strcmp(bufmsg, "num_chat\n"))//명령어 처리
@@ -52,6 +58,32 @@ void *thread_function(void *arg) { //명령어를 처리할 스레드
 		else if (!strcmp(bufmsg, "ip_list\n")) //명령어 처리
 			for (i = 0; i < num_user; i++)
 				printf("%s\n", ip_list[i]);
+		else if(!strncmp(bufmsg, "notice",6))
+		{
+			
+			for (i = 0; i < num_user; i++) {
+				
+					// 모든 채팅 참가자에게 메시지 방송
+					for (j = 0; j < num_user; j++)
+						send(bufmsg, buf, strlen(bufmsg), 0);
+					printf("\033[0G");		//커서의 X좌표를 0으로 이동
+					fprintf(stderr, "\033[97m");//글자색을 흰색으로 변경
+					printf("%s", buf);			//메시지 출력
+					fprintf(stderr, "\033[32m");//글자색을 녹색으로 변경
+					fprintf(stderr, "server>"); //커서 출력
+			}
+
+
+		}
+		else if(!strcmp(bufmsg, "exit\n"))
+		{
+			for (i = 0; i < num_user; i++) {
+				
+						removeClient(i);	// 클라이언트의 종료
+						continue;
+				
+			}
+		}
 		else //예외 처리
 			printf("해당 명령어가 없습니다.help를 참조하세요.\n");
 	}
